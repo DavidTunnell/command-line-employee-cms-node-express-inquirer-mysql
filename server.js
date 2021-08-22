@@ -1,8 +1,22 @@
 //THESE MIGHT GO IN OTHER FOLDERS FOR ORGANIZATION
+const express = require('express');
 const mysql = require('mysql2');
 var inquirer = require('inquirer');
 const cTable = require('console.table');
-console.log(cTable);
+const api = require('./routes/index.js');
+
+const PORT = process.env.PORT || 3001;
+const app = express();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use('/api', api);
+
+app.listen(PORT, () =>
+    console.log(`App listening at http://localhost:${PORT} 🚀`)
+);
+
+
 
 // // create the connection to database
 // const connection = mysql.createConnection({

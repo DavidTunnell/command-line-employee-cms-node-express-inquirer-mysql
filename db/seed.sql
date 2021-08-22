@@ -14,15 +14,15 @@ VALUES
 DELETE FROM role;
 INSERT INTO role (id, title, salary, department_id)
 VALUES
-    ( 1, "CEO", 1000000, 7),
-    ( 2, "Software Developer", 200000, 1),
-    ( 3, "Scrum Master", 150000, 1),
-    ( 4, "Software Tester", 100000, 1),
-    ( 5, "Accountant", 80000, 2),
-    ( 6, "Marketer", 80000, 3),
-    ( 7, "Scientist", 200000, 4),
-    ( 8, "Consultant", 100000, 5),
-    ( 9, "Onboarder", 1000000, 6);
+    ( 1, "CEO", 1000000.01, 7),
+    ( 2, "Software Developer", 200000.02, 1),
+    ( 3, "Scrum Master", 150000.03, 1),
+    ( 4, "Software Tester", 100000.04, 1),
+    ( 5, "Accountant", 80000.05, 2),
+    ( 6, "Marketer", 80000.06, 3),
+    ( 7, "Scientist", 200000.07, 4),
+    ( 8, "Consultant", 100000.08, 5),
+    ( 9, "Onboarder", 1000000.09, 6);
 
 DELETE FROM employee;
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
