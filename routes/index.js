@@ -1,12 +1,12 @@
 const express = require('express');
-
-// Import our modular routers for /tips and /feedback
+// Import modular routers
 const departmentRouter = require('./department');
 const roleRouter = require('./role');
 const employeeRouter = require('./employee');
 
 const app = express();
 
+//API routes available pointing to controller logic
 app.use('/department', departmentRouter);
 app.use('/role', roleRouter);
 app.use('/employee', employeeRouter);

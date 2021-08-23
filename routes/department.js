@@ -1,14 +1,5 @@
 const departmentRouter = require('express').Router();
-const mysql = require('mysql2');
-
-// create the connection to database
-//TODO investigate common architecture for where this goes, index? helpers? here? 
-const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'enddream',
-    password: '',
-    database: 'employee_cms'
-});
+const dbConnection = require('../helpers/dbConnection.js');
 
 // Create /api/department/
 departmentRouter.post('/', (req, res) => {
@@ -18,79 +9,45 @@ departmentRouter.post('/', (req, res) => {
     const { id, name } = req.body;
     // If all the required properties are present
     if (id && name) {
-        // Variable for the object we will save and assign values from body
-        const newDepartment = {
-            id,
-            name
-        };
         //construct query with data passed in from body
-        const sql = "INSERT INTO department (id, name) VALUES (" +
-            newDepartment.id + ", '" +
-            newDepartment.name +
-            "')";
-        //run query
-        connection.query(sql, function(err, result) {
-            //if successful inform user
-            if (result) {
-                console.log("1 record inserted");
-                const response = {
-                    status: 'success',
-                    body: newDepartment,
-                };
-                res.json(response);
-            } else { // else report error with db insert
-                res.json("Error with database insert: " + err);
-            }
-        });
+        const sql = "INSERT INTO department (id, name) VALUES (" + id + ", '" + name + "')";
+        //run query using helper import file
+        dbConnection.sqlQuery(sql, res);
     } else { //data validation error
-        res.json('Error in posting review, name or id were blank');
+        res.json(dbConnection.results(false, "One or more of the parameters passed in was empty/null/undefined."));
     }
 });
 
 // Read All /api/department/
 departmentRouter.get('/', (req, res) => {
     console.info(`${req.method} request received.`);
-    connection.query(
-        'SELECT * FROM department;',
-        function(err, results) {
-            if (err) {
-                res.json(err);
-            } else {
-                res.json(results);
-            }
-        }
-    );
+    const sql = 'SELECT * FROM department;';
+    dbConnection.sqlQuery(sql, res);
 });
 
 //Read by ID /api/department/1
 departmentRouter.get('/:id', (req, res) => {
     console.info(`${req.method} by ID request received.`);
     const id = req.params.id;
-    connection.query(
-        'SELECT * FROM department WHERE id = ' + id + ';',
-        function(err, results) {
-            if (err) {
-                res.json(err);
-            } else {
-                res.json(results);
-            }
-        }
-    );
+    const sql = 'SELECT * FROM department WHERE id = ' + id + ';';
+    dbConnection.sqlQuery(sql, res);
 });
 
 //Update /api/department/
 departmentRouter.put('/', (req, res) => {
-    // Log that a POST request was received
-    console.info(`${req.method} request received to submit feedback`);
-    res.json('put!');
+    console.info(`${req.method} request received.`);
+    const id = req.body.id;
+    const name = req.body.name;
+    const sql = "UPDATE department SET name = '" + name + "' WHERE id = '" + id + "';";
+    dbConnection.sqlQuery(sql, res);
 });
 
 //Delete /api/department/1
 departmentRouter.delete('/:id', (req, res) => {
-    // Log that a POST request was received
-    console.info(`${req.method} request received to submit feedback`);
+    console.info(`${req.method} request received.`);
     const id = req.params.id;
-    res.json('delete!: ' + id);
+    const sql = "DELETE FROM department WHERE id = '" + id + "';";
+    dbConnection.sqlQuery(sql, res);
 });
 
 module.exports = departmentRouter;
