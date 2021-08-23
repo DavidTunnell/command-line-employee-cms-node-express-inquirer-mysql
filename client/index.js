@@ -1,70 +1,69 @@
-var inquirer = require('inquirer');
+const inquirer = require('inquirer');
 const cTable = require('console.table');
+const inquirerOptions = require('./helpers/inquirerOptions.js');
+
+const boldGreenConsoleFont = "\x1b[1m\x1b[32m";
 
 //run on command: 'node index.js' 
-const main = async() => {
-    //main function runs when called directly but not for tests - https://codewithhugo.com/node-module-entry-required/
-    if (require.main === module) {
-        const employees = [];
-        console.log("Welcome to the software team website generator utility. Please answer the following questions about the teams manager.");
-        //get inputs for variable amount of managers, engineers and interns
-        const managerInputs = await collectInputs([], getManagerPrompts());
-
-        console.log(managerInputs);
-        // process.exit();
-    }
-};
-
-
-//To get unlimited number of entries - http://www.penandpaperprogrammer.com/blog/2018/12/16/repeating-questions-with-inquirerjs
-const collectInputs = async(inputs = [], prompts) => {
-    const { again, ...answers } = await inquirer.prompt(prompts);
-    const newInputs = [...inputs, answers];
-    //it should return 
-    return again ? collectInputs(newInputs, prompts) : newInputs;
-};
-
-//prompts object for manager questions
-const getManagerPrompts = () => {
-    const prompts = [{
-            type: "input",
-            name: "managerName",
-            message: "What is the manager's name?"
-        },
-        {
-            type: "input",
-            name: "managerDescription",
-            message: "What is the manager's description?"
-        },
-        {
-            type: "input",
-            name: "managerImageUrl",
-            message: "What is the manager's image URL?"
-        },
-        {
-            type: "input",
-            name: "managerId",
-            message: "What is the manager's employee ID?"
-        },
-        {
-            type: "input",
-            name: "managerEmail",
-            message: "What is the manager's email address?",
-        },
-        {
-            type: "input",
-            name: "managerOffice",
-            message: "What is the manager's office number?",
-        },
-        {
-            type: "confirm",
-            name: "again",
-            message: "Do you want to add another manager?",
-            default: true
+const init = async() => {
+    console.log(boldGreenConsoleFont, "Welcome to the employee command line CMS. Please select a domain to work with.");
+    const mainMenuResponse = await inquirer.prompt(inquirerOptions.mainMenu);
+    let actionResponse = {};
+    if (mainMenuResponse.mainMenu === "Departments") {
+        actionResponse = await inquirer.prompt(inquirerOptions.departmentMenu);
+        if (actionResponse.departmentMenu === "Create") {
+            console.log(1);
+        } else if (actionResponse.departmentMenu === "Read") {
+            console.log(2);
+        } else if (actionResponse.departmentMenu === "Update") {
+            console.log(3);
+        } else if (actionResponse.departmentMenu === "Delete") {
+            console.log(4);
         }
-    ];
-    return prompts;
+    } else if (mainMenuResponse.mainMenu === "Roles") {
+        actionResponse = await inquirer.prompt(inquirerOptions.roleMenu);
+        if (actionResponse.roleMenu === "Create") {
+            console.log(1 + "r");
+        } else if (actionResponse.roleMenu === "Read") {
+            console.log(2 + "r");
+        } else if (actionResponse.roleMenu === "Update") {
+            console.log(3 + "r");
+        } else if (actionResponse.roleMenu === "Delete") {
+            console.log(4 + "r");
+        }
+    } else if (mainMenuResponse.mainMenu === "Employees") {
+        actionResponse = await inquirer.prompt(inquirerOptions.employeeMenu);
+        if (actionResponse.employeeMenu === "Create") {
+            console.log(1 + "e");
+        } else if (actionResponse.employeeMenu === "Read") {
+            console.log(2 + "e");
+        } else if (actionResponse.employeeMenu === "Update") {
+            console.log(3 + "e");
+        } else if (actionResponse.employeeMenu === "Delete") {
+            console.log(4 + "e");
+        }
+    }
+    wantToExit();
 };
 
-//run main on startup
-main();
+// https://stackoverflow.com/questions/51713333/how-to-terminate-npm-inquirer-prompt-and-return-control-to-main-menu-function
+const wantToExit = () => {
+    inquirer
+        .prompt(inquirerOptions.continuePrompt)
+        .then((answer) => {
+            if (answer.moreQuery) return init();
+        });
+}
+
+
+
+// //To get unlimited number of entries - http://www.penandpaperprogrammer.com/blog/2018/12/16/repeating-questions-with-inquirerjs
+// const collectInputs = async(inputs = [], prompts) => {
+//     const { again, ...answers } = await inquirer.prompt(prompts);
+//     const newInputs = [...inputs, answers];
+//     //it should return 
+//     return again ? collectInputs(newInputs, prompts) : newInputs;
+// };
+
+//run init on startup
+init();
