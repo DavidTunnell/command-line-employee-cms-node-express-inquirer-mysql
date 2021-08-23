@@ -22,7 +22,7 @@ VALUES
     ( 6, "Marketer", 80000.06, 3),
     ( 7, "Scientist", 200000.07, 4),
     ( 8, "Consultant", 100000.08, 5),
-    ( 9, "Onboarder", 1000000.09, 6);
+    ( 9, "Onboarder", 80000.09, 6);
 
 DELETE FROM employee;
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
