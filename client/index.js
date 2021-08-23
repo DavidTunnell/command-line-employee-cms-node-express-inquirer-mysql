@@ -15,6 +15,7 @@ const init = async() => {
             console.log(1);
         } else if (actionResponse.departmentMenu === "Read") {
             console.log(2);
+            //TODO START HERE - use apiConnection.js
         } else if (actionResponse.departmentMenu === "Update") {
             console.log(3);
         } else if (actionResponse.departmentMenu === "Delete") {

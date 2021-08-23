@@ -17,8 +17,8 @@ const results = (status, body) => {
 }
 
 //query db
-const sqlQuery = (sql, res) => {
-    connection.query(sql,
+const sqlQuery = (sql, params, res) => {
+    connection.query(sql, params,
         function(err, queryResults) {
             if (err) {
                 res.json(results(false, err));

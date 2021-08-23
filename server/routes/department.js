@@ -10,9 +10,11 @@ departmentRouter.post('/', (req, res) => {
     // If all the required properties are present
     if (id && name) {
         //construct query with data passed in from body
-        const sql = "INSERT INTO department (id, name) VALUES (" + id + ", '" + name + "')";
+        // const sql = "INSERT INTO department (id, name) VALUES (" + id + ", '" + name + "')";
+        const sql = "INSERT INTO department (id, name) VALUES (?, ?);";
+        const params = [id, name];
         //run query using helper import file
-        dbConnection.sqlQuery(sql, res);
+        dbConnection.sqlQuery(sql, params, res);
     } else { //data validation error
         res.json(dbConnection.results(false, "One or more of the parameters passed in was empty/null/undefined."));
     }
@@ -22,32 +24,31 @@ departmentRouter.post('/', (req, res) => {
 departmentRouter.get('/', (req, res) => {
     console.info(`${req.method} request received.`);
     const sql = 'SELECT * FROM department;';
-    dbConnection.sqlQuery(sql, res);
+    dbConnection.sqlQuery(sql, [], res);
 });
 
 //Read by ID /api/department/1
 departmentRouter.get('/:id', (req, res) => {
     console.info(`${req.method} by ID request received.`);
-    const id = req.params.id;
-    const sql = 'SELECT * FROM department WHERE id = ' + id + ';';
-    dbConnection.sqlQuery(sql, res);
+    const params = [req.params.id];
+    const sql = 'SELECT * FROM department WHERE id = ?;';
+    dbConnection.sqlQuery(sql, params, res);
 });
 
 //Update /api/department/
 departmentRouter.put('/', (req, res) => {
     console.info(`${req.method} request received.`);
-    const id = req.body.id;
-    const name = req.body.name;
-    const sql = "UPDATE department SET name = '" + name + "' WHERE id = '" + id + "';";
-    dbConnection.sqlQuery(sql, res);
+    const params = [req.body.name, req.body.id];
+    const sql = "UPDATE department SET name = ? WHERE id = ?;";
+    dbConnection.sqlQuery(sql, params, res);
 });
 
 //Delete /api/department/1
 departmentRouter.delete('/:id', (req, res) => {
     console.info(`${req.method} request received.`);
-    const id = req.params.id;
-    const sql = "DELETE FROM department WHERE id = '" + id + "';";
-    dbConnection.sqlQuery(sql, res);
+    const params = [req.params.id];
+    const sql = "DELETE FROM department WHERE id = ?;";
+    dbConnection.sqlQuery(sql, params, res);
 });
 
 module.exports = departmentRouter;

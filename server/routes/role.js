@@ -10,9 +10,10 @@ roleRouter.post('/', (req, res) => {
     // If all the required properties are present
     if (id && title && salary && department_id) {
         //construct query with data passed in from body
-        const sql = "INSERT INTO role (id, title, salary, department_id) VALUES (" + id + ", '" + title + "', " + salary + ", " + department_id + ")";
+        const sql = "INSERT INTO role (id, title, salary, department_id) VALUES (?, ?, ?, ?)";
+        const params = [id, title, salary, department_id];
         //run query using helper import file
-        dbConnection.sqlQuery(sql, res);
+        dbConnection.sqlQuery(sql, params, res);
     } else { //data validation error
         res.json(dbConnection.results(false, "One or more of the parameters passed in was empty/null/undefined."));
     }
@@ -22,34 +23,31 @@ roleRouter.post('/', (req, res) => {
 roleRouter.get('/', (req, res) => {
     console.info(`${req.method} request received.`);
     const sql = 'SELECT * FROM role;';
-    dbConnection.sqlQuery(sql, res);
+    dbConnection.sqlQuery(sql, [], res);
 });
 
 //Read by ID /api/department/1
 roleRouter.get('/:id', (req, res) => {
     console.info(`${req.method} by ID request received.`);
-    const id = req.params.id;
-    const sql = 'SELECT * FROM role WHERE id = ' + id + ';';
-    dbConnection.sqlQuery(sql, res);
+    const params = [req.params.id];
+    const sql = 'SELECT * FROM role WHERE id = ?;';
+    dbConnection.sqlQuery(sql, params, res);
 });
 
 //Update /api/department/
 roleRouter.put('/', (req, res) => {
     console.info(`${req.method} request received.`);
-    const id = req.body.id;
-    const title = req.body.title;
-    const salary = req.body.salary;
-    const departmentId = req.body.department_id;
-    const sql = "UPDATE role SET title = '" + title + "', salary = '" + salary + "', department_id = '" + departmentId + "' WHERE id = '" + id + "';";
-    dbConnection.sqlQuery(sql, res);
+    const params = [req.body.title, req.body.salary, req.body.department_id, req.body.id];
+    const sql = "UPDATE role SET title = ?, salary = ?, department_id = ? WHERE id = ?;";
+    dbConnection.sqlQuery(sql, params, res);
 });
 
 //Delete /api/department/1
 roleRouter.delete('/:id', (req, res) => {
     console.info(`${req.method} request received.`);
-    const id = req.params.id;
-    const sql = "DELETE FROM role WHERE id = '" + id + "';";
-    dbConnection.sqlQuery(sql, res);
+    const params = [req.params.id];
+    const sql = "DELETE FROM role WHERE id = ?;";
+    dbConnection.sqlQuery(sql, params, res);
 });
 
 module.exports = roleRouter;

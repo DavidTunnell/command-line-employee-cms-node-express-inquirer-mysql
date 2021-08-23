@@ -10,11 +10,10 @@ employeeRouter.post('/', (req, res) => {
     // If all the required properties are present
     if (id && first_name && last_name && role_id) {
         //construct query with data passed in from body
-        const sql = "INSERT INTO employee (id, first_name, last_name, role_id, manager_id) VALUES (" + id + ", '" + first_name + "', '" + last_name + "', " +
-            role_id + ", " + manager_id + ");";
-        console.log(sql);
+        const sql = "INSERT INTO employee (id, first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?, ?);";
+        const params = [id, first_name, last_name, role_id, manager_id];
         //run query using helper import file
-        dbConnection.sqlQuery(sql, res);
+        dbConnection.sqlQuery(sql, params, res);
     } else { //data validation error
         res.json(dbConnection.results(false, "One or more of the parameters passed in was empty/null/undefined."));
     }
@@ -24,36 +23,31 @@ employeeRouter.post('/', (req, res) => {
 employeeRouter.get('/', (req, res) => {
     console.info(`${req.method} request received.`);
     const sql = 'SELECT * FROM employee;';
-    dbConnection.sqlQuery(sql, res);
+    dbConnection.sqlQuery(sql, [], res);
 });
 
 //Read by ID /api/department/1
 employeeRouter.get('/:id', (req, res) => {
     console.info(`${req.method} by ID request received.`);
-    const id = req.params.id;
-    const sql = 'SELECT * FROM employee WHERE id = ' + id + ';';
-    dbConnection.sqlQuery(sql, res);
+    const params = [req.params.id];
+    const sql = 'SELECT * FROM employee WHERE id = ?;';
+    dbConnection.sqlQuery(sql, params, res);
 });
 
 //Update /api/department/
 employeeRouter.put('/', (req, res) => {
     console.info(`${req.method} request received.`);
-    const id = req.body.id;
-    const firstName = req.body.first_name;
-    const lastName = req.body.last_name;
-    const roleId = req.body.role_id;
-    const managerId = req.body.manager_id;
-    const sql = "UPDATE employee SET first_name = '" + firstName + "', last_name = '" + lastName + "', role_id = " + roleId + ", manager_id = " +
-        managerId + " WHERE id = '" + id + "';";
-    dbConnection.sqlQuery(sql, res);
+    const params = [req.body.first_name, req.body.last_name, req.body.role_id, req.body.manager_id, req.body.id];
+    const sql = "UPDATE employee SET first_name = ?, last_name = ?, role_id = ?, manager_id = ? WHERE id = ?;";
+    dbConnection.sqlQuery(sql, params, res);
 });
 
 //Delete /api/department/1
 employeeRouter.delete('/:id', (req, res) => {
     console.info(`${req.method} request received.`);
-    const id = req.params.id;
-    const sql = "DELETE FROM employee WHERE id = '" + id + "';";
-    dbConnection.sqlQuery(sql, res);
+    const params = [req.params.id];
+    const sql = "DELETE FROM employee WHERE id = ?;";
+    dbConnection.sqlQuery(sql, params, res);
 });
 
 module.exports = employeeRouter;
