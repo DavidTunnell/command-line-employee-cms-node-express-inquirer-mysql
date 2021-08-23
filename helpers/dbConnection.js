@@ -1,5 +1,6 @@
 const mysql = require('mysql2');
 
+//connect to database here with your updated info
 const connection = mysql.createConnection({
     host: 'localhost',
     user: 'enddream',
@@ -7,6 +8,7 @@ const connection = mysql.createConnection({
     database: 'employee_cms'
 });
 
+//returns an standard object for queries
 const results = (status, body) => {
     return {
         wasSuccessful: status,
@@ -14,6 +16,7 @@ const results = (status, body) => {
     };
 }
 
+//query db
 const sqlQuery = (sql, res) => {
     connection.query(sql,
         function(err, queryResults) {

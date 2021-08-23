@@ -28,8 +28,8 @@ DELETE FROM employee;
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
 VALUES
     (1, "David", "Tunnell", 1, NULL),
-    (2, "Bob", "Smith", 2, 3),
-    (3, "Alice", "Jones", 3, 1),
+	(2, "Alice", "Jones", 3, 1),
+    (3, "Bob", "Smith", 2, 3),
     (4, "Rick", "Ruben", 2, 3),
     (5, "Tom", "Fort", 4, 3),
     (6, "Alex", "Gonzolez", 5, 1),
