@@ -6,13 +6,13 @@ departmentRouter.post('/', (req, res) => {
     // Log that a POST request was received
     console.info(`${req.method} request received.`);
     // Destructuring assignment for the items in req.body
-    const { id, name } = req.body;
+    const name = req.body.name;
     // If all the required properties are present
-    if (id && name) {
+    if (name) {
         //construct query with data passed in from body
         // const sql = "INSERT INTO department (id, name) VALUES (" + id + ", '" + name + "')";
-        const sql = "INSERT INTO department (id, name) VALUES (?, ?);";
-        const params = [id, name];
+        const sql = "INSERT INTO department (name) VALUES (?);";
+        const params = [name];
         //run query using helper import file
         dbConnection.sqlQuery(sql, params, res);
     } else { //data validation error

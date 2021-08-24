@@ -85,4 +85,61 @@ const employeeMenu = [{
     choices: employeeOptions
 }];
 
-module.exports = { mainMenu, departmentMenu, roleMenu, employeeMenu, continuePrompt };
+const createDepartmentMenu = [{
+    type: "input",
+    name: "name",
+    message: "Please enter a department name:"
+}];
+
+const createRoleMenuPart1 = [{
+    type: "input",
+    name: "title",
+    message: "Please enter a title:"
+}, {
+    type: "input",
+    name: "salary",
+    message: "Please enter a salary:"
+}];
+
+const createRoleMenuPart2 = [{
+    type: "input",
+    name: "department_id",
+    message: "Please enter a department ID:"
+}];
+
+const createEmployeeMenuPart1 = [{
+    type: "input",
+    name: "first_name",
+    message: "Please enter a first name:"
+}, {
+    type: "input",
+    name: "last_name",
+    message: "Please enter a last name:"
+}];
+
+const createEmployeeMenuPart2 = [{
+    type: "input",
+    name: "role_id",
+    message: "Please enter a role ID:"
+}];
+
+const createEmployeeMenuPart3 = [{
+    type: "input",
+    name: "manager_id",
+    message: "Please enter a manager ID:"
+}];
+
+
+module.exports = {
+    mainMenu,
+    departmentMenu,
+    roleMenu,
+    employeeMenu,
+    continuePrompt,
+    createDepartmentMenu,
+    createRoleMenuPart1,
+    createRoleMenuPart2,
+    createEmployeeMenuPart1,
+    createEmployeeMenuPart2,
+    createEmployeeMenuPart3
+};

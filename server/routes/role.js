@@ -6,12 +6,15 @@ roleRouter.post('/', (req, res) => {
     // Log that a POST request was received
     console.info(`${req.method} request received.`);
     // Destructuring assignment for the items in req.body
-    const { id, title, salary, department_id } = req.body;
+    const { title, salary, department_id } = req.body;
     // If all the required properties are present
-    if (id && title && salary && department_id) {
+    console.log(title);
+    console.log(salary);
+    console.log(department_id);
+    if (title && salary && department_id) {
         //construct query with data passed in from body
-        const sql = "INSERT INTO role (id, title, salary, department_id) VALUES (?, ?, ?, ?)";
-        const params = [id, title, salary, department_id];
+        const sql = "INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)";
+        const params = [title, salary, department_id];
         //run query using helper import file
         dbConnection.sqlQuery(sql, params, res);
     } else { //data validation error

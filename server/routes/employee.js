@@ -6,12 +6,12 @@ employeeRouter.post('/', (req, res) => {
     // Log that a POST request was received
     console.info(`${req.method} request received.`);
     // Destructuring assignment for the items in req.body
-    const { id, first_name, last_name, role_id, manager_id } = req.body;
+    const { first_name, last_name, role_id, manager_id } = req.body;
     // If all the required properties are present
-    if (id && first_name && last_name && role_id) {
+    if (first_name && last_name && role_id) {
         //construct query with data passed in from body
-        const sql = "INSERT INTO employee (id, first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?, ?);";
-        const params = [id, first_name, last_name, role_id, manager_id];
+        const sql = "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?);";
+        const params = [first_name, last_name, role_id, manager_id];
         //run query using helper import file
         dbConnection.sqlQuery(sql, params, res);
     } else { //data validation error
