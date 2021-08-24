@@ -51,4 +51,40 @@ function createEmployee(body) {
     return createAll(constructedUrl, body);
 }
 
-module.exports = { getDepartments, getRoles, getEmployees, createDepartment, createRole, createEmployee };
+function updateAll(constructedUrl, body) {
+    return fetch(constructedUrl, {
+            method: 'put',
+            body: JSON.stringify(body),
+            headers: { 'Content-Type': 'application/json' },
+        })
+        .then(response => response.json())
+        .then(json => (json));
+}
+
+function updateDepartment(body) {
+    const constructedUrl = urlPrefix + departmentApiSuffix;
+    return updateAll(constructedUrl, body);
+}
+
+function updateRole(body) {
+    const constructedUrl = urlPrefix + roleApiSuffix;
+    return updateAll(constructedUrl, body);
+}
+
+function updateEmployee(body) {
+    const constructedUrl = urlPrefix + employeeApiSuffix;
+    return updateAll(constructedUrl, body);
+}
+
+module.exports = {
+    getDepartments,
+    getRoles,
+    getEmployees,
+    createDepartment,
+    createRole,
+    createEmployee,
+    updateAll,
+    updateDepartment,
+    updateRole,
+    updateEmployee
+};

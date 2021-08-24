@@ -129,6 +129,71 @@ const createEmployeeMenuPart3 = [{
     message: "Please enter a manager ID:"
 }];
 
+const updateDepartmentMenuPart1 = [{
+    type: "input",
+    name: "id",
+    message: "Please enter the department ID you want to update:"
+}];
+
+const updateDepartmentMenuPart2 = [{
+    type: "input",
+    name: "name",
+    message: "Please enter the new name for the department:"
+}];
+
+const updateRoleMenuPart1 = [{
+    type: "input",
+    name: "id",
+    message: "Please enter the role ID you want to update:"
+}];
+
+const updateRoleMenuPart2 = [{
+        type: "input",
+        name: "title",
+        message: "Please enter the new title for the role:"
+    },
+    {
+        type: "input",
+        name: "salary",
+        message: "Please enter the new salary for the role:"
+    }
+];
+
+const updateRoleMenuPart3 = [{
+    type: "input",
+    name: "department_id",
+    message: "Please enter the new department ID for the role:"
+}];
+
+const updateEmployeeMenuPart1 = [{
+    type: "input",
+    name: "id",
+    message: "Please enter the employee ID you want to update:"
+}];
+
+const updateEmployeeMenuPart2 = [{
+        type: "input",
+        name: "first_name",
+        message: "Please enter the new first name for the employee:"
+    },
+    {
+        type: "input",
+        name: "last_name",
+        message: "Please enter the new last name for the employee:"
+    }
+];
+
+const updateEmployeeMenuPart3 = [{
+    type: "input",
+    name: "role_id",
+    message: "Please enter the new role ID for the employee:"
+}];
+
+const updateEmployeeMenuPart4 = [{
+    type: "input",
+    name: "manager_id",
+    message: "Please enter the new manager ID for the employee:"
+}];
 
 module.exports = {
     mainMenu,
@@ -141,5 +206,14 @@ module.exports = {
     createRoleMenuPart2,
     createEmployeeMenuPart1,
     createEmployeeMenuPart2,
-    createEmployeeMenuPart3
+    createEmployeeMenuPart3,
+    updateDepartmentMenuPart1,
+    updateDepartmentMenuPart2,
+    updateRoleMenuPart1,
+    updateRoleMenuPart2,
+    updateRoleMenuPart3,
+    updateEmployeeMenuPart1,
+    updateEmployeeMenuPart2,
+    updateEmployeeMenuPart3,
+    updateEmployeeMenuPart4
 };

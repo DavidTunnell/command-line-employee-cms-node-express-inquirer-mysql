@@ -6,8 +6,6 @@ const apiConnection = require('./helpers/apiConnection.js');
 const boldGreenConsoleFont = "\x1b[1m\x1b[32m";
 const boldRedConsoleFont = "\x1b[1m\x1b[31m";
 
-
-
 //run on command: 'node index.js' 
 const init = async() => {
     console.log(boldGreenConsoleFont, "Welcome to the employee command line CMS. Please select a domain to work with.");
@@ -35,7 +33,30 @@ const init = async() => {
             }).catch(err => console.log(err));
         } else
         if (actionResponse.departmentMenu === "Update") {
-            console.log(3);
+            //MOVE THESE TO API CONNECTION FILE?
+            apiConnection.getDepartments().then(departments => {
+                if (departments.wasSuccessful) {
+                    console.table('\n\Departments', departments.body);
+                }
+            }).catch(err => console.log(err));
+
+            setTimeout(async function() {
+                const updateDepartmentMenuResponse1 = await inquirer.prompt(inquirerOptions.updateDepartmentMenuPart1);
+                setTimeout(async function() {
+                    const updateDepartmentMenuResponse2 = await inquirer.prompt(inquirerOptions.updateDepartmentMenuPart2);
+                    const body = {
+                        ...updateDepartmentMenuResponse1,
+                        ...updateDepartmentMenuResponse2
+                    };
+                    apiConnection.updateDepartment(body).then(response => {
+                        if (response.wasSuccessful) {
+                            console.log(boldGreenConsoleFont, "Department updated successfully.");
+                        } else {
+                            console.log(boldRedConsoleFont, "Department failed to be updated: " + response.body.sqlMessage + " " + response.body.body);
+                        }
+                    }).catch(err => console.log(err));
+                }, 1000);
+            }, 1000);
         } else if (actionResponse.departmentMenu === "Delete") {
             console.log(4);
         }
@@ -45,7 +66,7 @@ const init = async() => {
             const createRoleMenuResponse1 = await inquirer.prompt(inquirerOptions.createRoleMenuPart1);
             apiConnection.getDepartments().then(departments => {
                 if (departments.wasSuccessful) {
-                    console.table('\n\Roles', departments.body);
+                    console.table('\n\Department', departments.body);
                 }
             }).catch(err => console.log(err));
             setTimeout(async function() {
@@ -71,7 +92,39 @@ const init = async() => {
                 }
             }).catch(err => console.log(err));
         } else if (actionResponse.roleMenu === "Update") {
-            console.log(3 + "r");
+            apiConnection.getRoles().then(roles => {
+                if (roles.wasSuccessful) {
+                    console.table('\n\Roles', roles.body);
+                }
+            }).catch(err => console.log(err));
+            setTimeout(async function() {
+                const updateRoleMenuResponse1 = await inquirer.prompt(inquirerOptions.updateRoleMenuPart1);
+                setTimeout(async function() {
+                    const updateRoleMenuResponse2 = await inquirer.prompt(inquirerOptions.updateRoleMenuPart2);
+                    setTimeout(async function() {
+                        apiConnection.getDepartments().then(departments => {
+                            if (departments.wasSuccessful) {
+                                console.table('\n\Department', departments.body);
+                            }
+                        }).catch(err => console.log(err));
+                        setTimeout(async function() {
+                            const updateRoleMenuResponse3 = await inquirer.prompt(inquirerOptions.updateRoleMenuPart3);
+                            const body = {
+                                ...updateRoleMenuResponse1,
+                                ...updateRoleMenuResponse2,
+                                ...updateRoleMenuResponse3
+                            };
+                            apiConnection.updateRole(body).then(response => {
+                                if (response.wasSuccessful) {
+                                    console.log(boldGreenConsoleFont, "Role updated successfully.");
+                                } else {
+                                    console.log(boldRedConsoleFont, "Role failed to be updated: " + response.body.sqlMessage + " " + response.body.body);
+                                }
+                            }).catch(err => console.log(err));
+                        }, 1000);
+                    }, 1000);
+                }, 1000);
+            }, 1000);
         } else if (actionResponse.roleMenu === "Delete") {
             console.log(4 + "r");
         }
@@ -110,16 +163,6 @@ const init = async() => {
                     }).catch(err => console.log(err));
                 }, 1000);
             }, 1000);
-
-            // apiConnection.createEmployee(body).then(response => {
-            //     if (response.wasSuccessful) {
-            //         console.log(boldGreenConsoleFont, "Employee added successfully.");
-            //     } else {
-            //         console.log(boldRedConsoleFont, "Employee failed to be added: " + response.body.sqlMessage + " " + response.body.body);
-            //     }
-            // }).catch(err => console.log(err));
-
-
         } else if (actionResponse.employeeMenu === "Read") {
             apiConnection.getEmployees().then(employees => {
                 if (employees.wasSuccessful) {
@@ -128,11 +171,56 @@ const init = async() => {
                 }
             }).catch(err => console.log(err));
         } else if (actionResponse.employeeMenu === "Update") {
-            console.log(3 + "e");
+            apiConnection.getEmployees().then(roles => {
+                if (roles.wasSuccessful) {
+                    console.table('\n\Employees', roles.body);
+                }
+            }).catch(err => console.log(err));
+            setTimeout(async function() {
+                const updateEmployeeMenuResponse1 = await inquirer.prompt(inquirerOptions.updateEmployeeMenuPart1);
+                setTimeout(async function() {
+                    const updateEmployeeMenuResponse2 = await inquirer.prompt(inquirerOptions.updateEmployeeMenuPart2);
+                    setTimeout(async function() {
+                        await apiConnection.getRoles().then(roles => {
+                            if (roles.wasSuccessful) {
+                                console.table('\n\Roles', roles.body);
+                            }
+                        }).catch(err => console.log(err));
+                        setTimeout(async function() {
+                            const updateEmployeeMenuResponse3 = await inquirer.prompt(inquirerOptions.updateEmployeeMenuPart3);
+                            setTimeout(async function() {
+                                apiConnection.getEmployees().then(roles => {
+                                    if (roles.wasSuccessful) {
+                                        console.table('\n\Employees', roles.body);
+                                    }
+                                }).catch(err => console.log(err));
+                                setTimeout(async function() {
+                                    const updateEmployeeMenuResponse4 = await inquirer.prompt(inquirerOptions.updateEmployeeMenuPart4);
+                                    const body = {
+                                        ...updateEmployeeMenuResponse1,
+                                        ...updateEmployeeMenuResponse2,
+                                        ...updateEmployeeMenuResponse3,
+                                        ...updateEmployeeMenuResponse4
+                                    };
+                                    console.log(body);
+                                    apiConnection.updateEmployee(body).then(response => {
+                                        if (response.wasSuccessful) {
+                                            console.log(boldGreenConsoleFont, "Employee updated successfully.");
+                                        } else {
+                                            console.log(boldRedConsoleFont, "Employee failed to be updated: " + response.body.sqlMessage + " " + response.body.body);
+                                        }
+                                    }).catch(err => console.log(err));
+                                }, 1000);
+                            }, 1000);
+                        }, 1000);
+                    }, 1000);
+                }, 1000);
+            }, 1000);
         } else if (actionResponse.employeeMenu === "Delete") {
             console.log(4 + "e");
         }
     }
+    //wrap entire thing like we had to nest (line 111) above
     // setTimeout(function() {
     //     wantToExit();
     // }, 2000);
