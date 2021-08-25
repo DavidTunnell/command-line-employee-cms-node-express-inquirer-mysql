@@ -19,9 +19,11 @@ const init = async() => {
             apiConnection.createDepartment(body).then(response => {
                 responseFeedback(response, "Department", "created");
             }).catch(err => console.log(err));
+            wantToExit();
         } else if (actionResponse.departmentMenu === "Read") {
             //get all departments using promise from fetch in the apiConnection file
             getAndPrintDepartments();
+            wantToExit();
         } else
         if (actionResponse.departmentMenu === "Update") {
             getAndPrintDepartments();
@@ -36,16 +38,17 @@ const init = async() => {
                     apiConnection.updateDepartment(body).then(response => {
                         responseFeedback(response, "Department", "updated");
                     }).catch(err => console.log(err));
+                    wantToExit();
                 }, 1000);
             }, 1000);
         } else if (actionResponse.departmentMenu === "Delete") {
             getAndPrintDepartments();
             setTimeout(async function() {
                 const deleteDepartmentMenuResponse = await inquirer.prompt(inquirerOptions.deleteDepartmentMenu);
-
                 apiConnection.deleteDepartment(deleteDepartmentMenuResponse.id).then(response => {
                     responseFeedback(response, "Department", "deleted");
                 }).catch(err => console.log(err));
+                wantToExit();
             }, 1000);
         }
     } else if (mainMenuResponse.mainMenu === "Roles") {
@@ -54,18 +57,19 @@ const init = async() => {
             const createRoleMenuResponse1 = await inquirer.prompt(inquirerOptions.createRoleMenuPart1);
             getAndPrintDepartments();
             setTimeout(async function() {
-                    const createRoleMenuResponse2 = await inquirer.prompt(inquirerOptions.createRoleMenuPart2);
-                    const body = {
-                        ...createRoleMenuResponse1,
-                        ...createRoleMenuResponse2
-                    };
-                    apiConnection.createRole(body).then(response => {
-                        responseFeedback(response, "Role", "created");
-                    }).catch(err => console.log(err));
-                },
-                1000);
+                const createRoleMenuResponse2 = await inquirer.prompt(inquirerOptions.createRoleMenuPart2);
+                const body = {
+                    ...createRoleMenuResponse1,
+                    ...createRoleMenuResponse2
+                };
+                apiConnection.createRole(body).then(response => {
+                    responseFeedback(response, "Role", "created");
+                }).catch(err => console.log(err));
+                wantToExit();
+            }, 1000);
         } else if (actionResponse.roleMenu === "Read") {
             getAndPrintRoles();
+            wantToExit();
         } else if (actionResponse.roleMenu === "Update") {
             getAndPrintRoles();
             setTimeout(async function() {
@@ -84,6 +88,7 @@ const init = async() => {
                             apiConnection.updateRole(body).then(response => {
                                 responseFeedback(response, "Role", "updated");
                             }).catch(err => console.log(err));
+                            wantToExit();
                         }, 1000);
                     }, 1000);
                 }, 1000);
@@ -95,6 +100,7 @@ const init = async() => {
                 apiConnection.deleteRole(deleteRoleMenuResponse.id).then(response => {
                     responseFeedback(response, "Role", "deleted");
                 }).catch(err => console.log(err));
+                wantToExit();
             }, 1000);
         }
     } else
@@ -118,10 +124,12 @@ const init = async() => {
                     apiConnection.createEmployee(body).then(response => {
                         responseFeedback(response, "Employee", "created");
                     }).catch(err => console.log(err));
+                    wantToExit();
                 }, 1000);
             }, 1000);
         } else if (actionResponse.employeeMenu === "Read") {
             getAndPrintEmployees();
+            wantToExit();
         } else if (actionResponse.employeeMenu === "Update") {
             getAndPrintEmployees();
             setTimeout(async function() {
@@ -145,6 +153,7 @@ const init = async() => {
                                     apiConnection.updateEmployee(body).then(response => {
                                         responseFeedback(response, "Employee", "updated");
                                     }).catch(err => console.log(err));
+                                    wantToExit();
                                 }, 1000);
                             }, 1000);
                         }, 1000);
@@ -158,6 +167,7 @@ const init = async() => {
                 apiConnection.deleteEmployee(deleteEmployeeMenuResponse.id).then(response => {
                     responseFeedback(response, "Employee", "deleted");
                 }).catch(err => console.log(err));
+                wantToExit();
             }, 1000);
         }
     }
@@ -169,11 +179,13 @@ const init = async() => {
 
 // https://stackoverflow.com/questions/51713333/how-to-terminate-npm-inquirer-prompt-and-return-control-to-main-menu-function
 const wantToExit = () => {
-    inquirer
-        .prompt(inquirerOptions.continuePrompt)
-        .then((answer) => {
-            if (answer.moreQuery) return init();
-        });
+    setTimeout(function() {
+        inquirer
+            .prompt(inquirerOptions.continuePrompt)
+            .then((answer) => {
+                if (answer.moreQuery) return init();
+            });
+    }, 1000);
 }
 
 const getAndPrintDepartments = () => {
