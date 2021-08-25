@@ -76,6 +76,29 @@ function updateEmployee(body) {
     return updateAll(constructedUrl, body);
 }
 
+function deleteAll(constructedUrl) {
+    return fetch(constructedUrl, {
+            method: 'delete'
+        })
+        .then(response => response.json())
+        .then(json => (json));
+}
+
+function deleteDepartment(id) {
+    const constructedUrl = urlPrefix + departmentApiSuffix + id;
+    return deleteAll(constructedUrl);
+}
+
+function deleteRole(id) {
+    const constructedUrl = urlPrefix + roleApiSuffix + id;
+    return deleteAll(constructedUrl);
+}
+
+function deleteEmployee(id) {
+    const constructedUrl = urlPrefix + employeeApiSuffix + id;
+    return deleteAll(constructedUrl);
+}
+
 module.exports = {
     getDepartments,
     getRoles,
@@ -86,5 +109,8 @@ module.exports = {
     updateAll,
     updateDepartment,
     updateRole,
-    updateEmployee
+    updateEmployee,
+    deleteDepartment,
+    deleteRole,
+    deleteEmployee
 };

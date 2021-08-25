@@ -4,15 +4,15 @@ const departmentOptions = [{
         value: "Read"
     },
     {
-        name: "Create a Departments",
+        name: "Create a Department",
         value: "Create"
     },
     {
-        name: "Update a Departments",
+        name: "Update a Department",
         value: "Update"
     },
     {
-        name: "Delete a Departments",
+        name: "Delete a Department",
         value: "Delete"
     }
 ];
@@ -21,15 +21,15 @@ const roleOptions = [{
         value: "Read"
     },
     {
-        name: "Create a Roles",
+        name: "Create a Role",
         value: "Create"
     },
     {
-        name: "Update a Roles",
+        name: "Update a Role",
         value: "Update"
     },
     {
-        name: "Delete a Roles",
+        name: "Delete a Role",
         value: "Delete"
     }
 ];
@@ -195,6 +195,12 @@ const updateEmployeeMenuPart4 = [{
     message: "Please enter the new manager ID for the employee:"
 }];
 
+const deleteDepartmentMenu = [{
+    type: "input",
+    name: "id",
+    message: "Please enter the ID of the department you want to delete:"
+}];
+
 module.exports = {
     mainMenu,
     departmentMenu,
@@ -215,5 +221,6 @@ module.exports = {
     updateEmployeeMenuPart1,
     updateEmployeeMenuPart2,
     updateEmployeeMenuPart3,
-    updateEmployeeMenuPart4
+    updateEmployeeMenuPart4,
+    deleteDepartmentMenu
 };
