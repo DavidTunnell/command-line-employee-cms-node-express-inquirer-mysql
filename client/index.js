@@ -3,9 +3,11 @@ const cTable = require('console.table');
 const inquirerOptions = require('./helpers/inquirerOptions.js');
 const apiConnection = require('./helpers/apiConnection.js');
 
+//change console output colors
 const boldGreenConsoleFont = "\x1b[1m\x1b[32m";
 const boldRedConsoleFont = "\x1b[1m\x1b[31m";
 
+//https://patorjk.com/software/taag/#p=display&f=Graffiti&t=Type%20Something%20
 const titleArt = `                                                                                                                                                                                                                
 ███████ ███    ███ ██████  ██       ██████  ██    ██ ███████ ███████ 
 ██      ████  ████ ██   ██ ██      ██    ██  ██  ██  ██      ██      
@@ -22,21 +24,27 @@ const titleArt = `
 
 //run on command: 'node index.js' 
 const init = async() => {
+    //display intro text
     console.log(titleArt);
     console.log(boldGreenConsoleFont, "Welcome to the employee command line CMS. Please select a domain to work with.");
+    //main menu
     const mainMenuResponse = await inquirer.prompt(inquirerOptions.mainMenu);
     let actionResponse = {};
+    // if statements based on user menu choices
     if (mainMenuResponse.mainMenu === "Departments") {
+        //gathering user entry results
         actionResponse = await inquirer.prompt(inquirerOptions.departmentMenu);
         if (actionResponse.departmentMenu === "Create") {
             const createDepartmentMenuResponse = await inquirer.prompt(inquirerOptions.createDepartmentMenu);
             const body = createDepartmentMenuResponse;
+            //call API and create passing json body
             apiConnection.createDepartment(body).then(response => {
+                //provide console feedback
                 responseFeedback(response, "Department", "created");
             }).catch(err => console.log(err));
+            //ask if user wants to exit or continue
             wantToExit();
         } else if (actionResponse.departmentMenu === "Read") {
-            //get all departments using promise from fetch in the apiConnection file
             getAndPrintDepartments();
             wantToExit();
         } else
@@ -46,6 +54,7 @@ const init = async() => {
                 const updateDepartmentMenuResponse1 = await inquirer.prompt(inquirerOptions.updateDepartmentMenuPart1);
                 setTimeout(async function() {
                     const updateDepartmentMenuResponse2 = await inquirer.prompt(inquirerOptions.updateDepartmentMenuPart2);
+                    //when user entry comes from multiple sets of questions combine then
                     const body = {
                         ...updateDepartmentMenuResponse1,
                         ...updateDepartmentMenuResponse2
@@ -188,6 +197,7 @@ const init = async() => {
     }
 };
 
+// asks user if they want to continue and return to the main menu
 // https://stackoverflow.com/questions/51713333/how-to-terminate-npm-inquirer-prompt-and-return-control-to-main-menu-function
 const wantToExit = () => {
     setTimeout(function() {
@@ -199,6 +209,7 @@ const wantToExit = () => {
     }, 1000);
 }
 
+//gets and translates promise from API call and then displays to console as table
 const getAndPrintDepartments = () => {
     apiConnection.getDepartments().then(departments => {
         if (departments.wasSuccessful) {
@@ -208,6 +219,7 @@ const getAndPrintDepartments = () => {
     }).catch(err => console.log(err));
 }
 
+//gets/prints roles to table
 const getAndPrintRoles = () => {
     apiConnection.getRoles().then(roles => {
         if (roles.wasSuccessful) {
@@ -216,6 +228,7 @@ const getAndPrintRoles = () => {
     }).catch(err => console.log(err));
 }
 
+//gets/prints employees to table
 const getAndPrintEmployees = () => {
     apiConnection.getEmployees().then(roles => {
         if (roles.wasSuccessful) {
@@ -224,6 +237,7 @@ const getAndPrintEmployees = () => {
     }).catch(err => console.log(err));
 }
 
+//provides feedback after calling API
 const responseFeedback = (response, tableName, action) => {
     if (response.wasSuccessful) {
         console.log(boldGreenConsoleFont, `${tableName} ${action} successfully.`);

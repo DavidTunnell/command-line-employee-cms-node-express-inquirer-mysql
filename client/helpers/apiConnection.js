@@ -1,16 +1,19 @@
 const fetch = require('node-fetch'); //https://www.npmjs.com/package/node-fetch
 
+// client app settings can be updated here
 const urlPrefix = "http://localhost:3001"; //make sure not to have a slash at the end
 const departmentApiSuffix = "/api/department/";
 const roleApiSuffix = "/api/role/";
 const employeeApiSuffix = "/api/employee/";
 
+//central function for all gets
 function getAll(constructedUrl) {
     return fetch(constructedUrl) // return this promise
         .then(response => response.json())
         .then(json => (json));
 }
 
+//each call is broken out for extensibility in the future
 function getDepartments() {
     const constructedUrl = urlPrefix + departmentApiSuffix;
     return getAll(constructedUrl);
@@ -26,6 +29,7 @@ function getEmployees() {
     return getAll(constructedUrl);
 }
 
+//central function for all creates
 function createAll(constructedUrl, body) {
     return fetch(constructedUrl, {
             method: 'post',
@@ -51,6 +55,7 @@ function createEmployee(body) {
     return createAll(constructedUrl, body);
 }
 
+//central function for all updates
 function updateAll(constructedUrl, body) {
     return fetch(constructedUrl, {
             method: 'put',
@@ -76,6 +81,7 @@ function updateEmployee(body) {
     return updateAll(constructedUrl, body);
 }
 
+//central function for all deletes
 function deleteAll(constructedUrl) {
     return fetch(constructedUrl, {
             method: 'delete'
@@ -99,6 +105,7 @@ function deleteEmployee(id) {
     return deleteAll(constructedUrl);
 }
 
+//export functions to be imported elsewhere
 module.exports = {
     getDepartments,
     getRoles,

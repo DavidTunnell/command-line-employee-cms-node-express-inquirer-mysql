@@ -8,9 +8,6 @@ roleRouter.post('/', (req, res) => {
     // Destructuring assignment for the items in req.body
     const { title, salary, department_id } = req.body;
     // If all the required properties are present
-    console.log(title);
-    console.log(salary);
-    console.log(department_id);
     if (title && salary && department_id) {
         //construct query with data passed in from body
         const sql = "INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)";

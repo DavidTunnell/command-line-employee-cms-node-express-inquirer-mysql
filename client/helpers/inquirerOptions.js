@@ -1,3 +1,4 @@
+//preliminary menu questions
 const domain = ["Departments", "Roles", "Employees"];
 const departmentOptions = [{
         name: "View all Departments",
@@ -58,12 +59,14 @@ const mainMenu = [{
     choices: domain
 }];
 
+//asks user if they would like to restart for another action
 const continuePrompt = [{
     name: "moreQuery",
     type: "confirm",
     message: "Would you like to return to the main menu to run another action?"
 }];
 
+//main menu subsection options
 const departmentMenu = [{
     name: "departmentMenu",
     type: "list",
@@ -85,6 +88,7 @@ const employeeMenu = [{
     choices: employeeOptions
 }];
 
+//create for each table
 const createDepartmentMenu = [{
     type: "input",
     name: "name",
@@ -129,6 +133,7 @@ const createEmployeeMenuPart3 = [{
     message: "Please enter a manager ID:"
 }];
 
+//update for each table
 const updateDepartmentMenuPart1 = [{
     type: "input",
     name: "id",
@@ -195,6 +200,7 @@ const updateEmployeeMenuPart4 = [{
     message: "Please enter the new manager ID for the employee:"
 }];
 
+//delete for each table
 const deleteDepartmentMenu = [{
     type: "input",
     name: "id",

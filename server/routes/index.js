@@ -4,6 +4,7 @@ const departmentRouter = require('./department');
 const roleRouter = require('./role');
 const employeeRouter = require('./employee');
 
+//use/initialize express
 const app = express();
 
 //API routes available pointing to controller logic

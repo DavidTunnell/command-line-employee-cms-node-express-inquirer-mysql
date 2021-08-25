@@ -26,7 +26,9 @@ Command examples
 ## Screenshots
 
 ================
-//quality comments
+
+//deploy to heroku?
 //walkthrough video
+//screenshots for readme
 //finish readme
 //link to github repo
