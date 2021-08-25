@@ -6,8 +6,23 @@ const apiConnection = require('./helpers/apiConnection.js');
 const boldGreenConsoleFont = "\x1b[1m\x1b[32m";
 const boldRedConsoleFont = "\x1b[1m\x1b[31m";
 
+const titleArt = `                                                                                                                                                                                                                
+███████ ███    ███ ██████  ██       ██████  ██    ██ ███████ ███████ 
+██      ████  ████ ██   ██ ██      ██    ██  ██  ██  ██      ██      
+█████   ██ ████ ██ ██████  ██      ██    ██   ████   █████   █████   
+██      ██  ██  ██ ██      ██      ██    ██    ██    ██      ██      
+███████ ██      ██ ██      ███████  ██████     ██    ███████ ███████ 
+                                                                     
+                    ██████  ███    ███ ███████ 
+                    ██      ████  ████ ██      
+                    ██      ██ ████ ██ ███████ 
+                    ██      ██  ██  ██      ██ 
+                    ██████  ██      ██ ███████                         
+`;
+
 //run on command: 'node index.js' 
 const init = async() => {
+    console.log(titleArt);
     console.log(boldGreenConsoleFont, "Welcome to the employee command line CMS. Please select a domain to work with.");
     const mainMenuResponse = await inquirer.prompt(inquirerOptions.mainMenu);
     let actionResponse = {};
@@ -171,10 +186,6 @@ const init = async() => {
             }, 1000);
         }
     }
-    //wrap entire thing like we had to nest (line 111) above
-    // setTimeout(function() {
-    //     wantToExit();
-    // }, 2000);
 };
 
 // https://stackoverflow.com/questions/51713333/how-to-terminate-npm-inquirer-prompt-and-return-control-to-main-menu-function
