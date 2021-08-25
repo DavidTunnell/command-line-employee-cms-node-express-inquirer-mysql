@@ -17,27 +17,14 @@ const init = async() => {
             const createDepartmentMenuResponse = await inquirer.prompt(inquirerOptions.createDepartmentMenu);
             const body = createDepartmentMenuResponse;
             apiConnection.createDepartment(body).then(response => {
-                if (response.wasSuccessful) {
-                    console.log(boldGreenConsoleFont, "Department added successfully.");
-                } else {
-                    console.log(boldRedConsoleFont, "Department failed to be added: " + response.body.sqlMessage + " " + response.body.body);
-                }
+                responseFeedback(response, "Department", "created");
             }).catch(err => console.log(err));
         } else if (actionResponse.departmentMenu === "Read") {
             //get all departments using promise from fetch in the apiConnection file
             getAndPrintDepartments();
         } else
         if (actionResponse.departmentMenu === "Update") {
-
-
-
-            //MOVE THESE TO API CONNECTION FILE?
             getAndPrintDepartments();
-
-
-
-
-
             setTimeout(async function() {
                 const updateDepartmentMenuResponse1 = await inquirer.prompt(inquirerOptions.updateDepartmentMenuPart1);
                 setTimeout(async function() {
@@ -47,27 +34,17 @@ const init = async() => {
                         ...updateDepartmentMenuResponse2
                     };
                     apiConnection.updateDepartment(body).then(response => {
-                        if (response.wasSuccessful) {
-                            console.log(boldGreenConsoleFont, "Department updated successfully.");
-                        } else {
-                            console.log(boldRedConsoleFont, "Department failed to be updated: " + response.body.sqlMessage + " " + response.body.body);
-                        }
+                        responseFeedback(response, "Department", "updated");
                     }).catch(err => console.log(err));
                 }, 1000);
             }, 1000);
         } else if (actionResponse.departmentMenu === "Delete") {
-
             getAndPrintDepartments();
-
             setTimeout(async function() {
                 const deleteDepartmentMenuResponse = await inquirer.prompt(inquirerOptions.deleteDepartmentMenu);
 
                 apiConnection.deleteDepartment(deleteDepartmentMenuResponse.id).then(response => {
-                    if (response.wasSuccessful) {
-                        console.log(boldGreenConsoleFont, "Department delete successfully.");
-                    } else {
-                        console.log(boldRedConsoleFont, "Department failed to be deleted: " + response.body.sqlMessage + " " + response.body.body);
-                    }
+                    responseFeedback(response, "Department", "deleted");
                 }).catch(err => console.log(err));
             }, 1000);
         }
@@ -83,11 +60,7 @@ const init = async() => {
                         ...createRoleMenuResponse2
                     };
                     apiConnection.createRole(body).then(response => {
-                        if (response.wasSuccessful) {
-                            console.log(boldGreenConsoleFont, "Role added successfully.");
-                        } else {
-                            console.log(boldRedConsoleFont, "Role failed to be added: " + response.body.sqlMessage + " " + response.body.body);
-                        }
+                        responseFeedback(response, "Role", "created");
                     }).catch(err => console.log(err));
                 },
                 1000);
@@ -109,18 +82,20 @@ const init = async() => {
                                 ...updateRoleMenuResponse3
                             };
                             apiConnection.updateRole(body).then(response => {
-                                if (response.wasSuccessful) {
-                                    console.log(boldGreenConsoleFont, "Role updated successfully.");
-                                } else {
-                                    console.log(boldRedConsoleFont, "Role failed to be updated: " + response.body.sqlMessage + " " + response.body.body);
-                                }
+                                responseFeedback(response, "Role", "updated");
                             }).catch(err => console.log(err));
                         }, 1000);
                     }, 1000);
                 }, 1000);
             }, 1000);
         } else if (actionResponse.roleMenu === "Delete") {
-            console.log(4 + "r");
+            getAndPrintRoles();
+            setTimeout(async function() {
+                const deleteRoleMenuResponse = await inquirer.prompt(inquirerOptions.deleteRoleMenu);
+                apiConnection.deleteRole(deleteRoleMenuResponse.id).then(response => {
+                    responseFeedback(response, "Role", "deleted");
+                }).catch(err => console.log(err));
+            }, 1000);
         }
     } else
     if (mainMenuResponse.mainMenu === "Employees") {
@@ -141,11 +116,7 @@ const init = async() => {
                         ...createEmployeeMenuResponse3
                     };
                     apiConnection.createEmployee(body).then(response => {
-                        if (response.wasSuccessful) {
-                            console.log(boldGreenConsoleFont, "Employee added successfully.");
-                        } else {
-                            console.log(boldRedConsoleFont, "Employee failed to be added: " + response.body.sqlMessage + " " + response.body.body);
-                        }
+                        responseFeedback(response, "Employee", "created");
                     }).catch(err => console.log(err));
                 }, 1000);
             }, 1000);
@@ -171,13 +142,8 @@ const init = async() => {
                                         ...updateEmployeeMenuResponse3,
                                         ...updateEmployeeMenuResponse4
                                     };
-
                                     apiConnection.updateEmployee(body).then(response => {
-                                        if (response.wasSuccessful) {
-                                            console.log(boldGreenConsoleFont, "Employee updated successfully.");
-                                        } else {
-                                            console.log(boldRedConsoleFont, "Employee failed to be updated: " + response.body.sqlMessage + " " + response.body.body);
-                                        }
+                                        responseFeedback(response, "Employee", "updated");
                                     }).catch(err => console.log(err));
                                 }, 1000);
                             }, 1000);
@@ -186,7 +152,13 @@ const init = async() => {
                 }, 1000);
             }, 1000);
         } else if (actionResponse.employeeMenu === "Delete") {
-            console.log(4 + "e");
+            getAndPrintEmployees();
+            setTimeout(async function() {
+                const deleteEmployeeMenuResponse = await inquirer.prompt(inquirerOptions.deleteEmployeeMenu);
+                apiConnection.deleteEmployee(deleteEmployeeMenuResponse.id).then(response => {
+                    responseFeedback(response, "Employee", "deleted");
+                }).catch(err => console.log(err));
+            }, 1000);
         }
     }
     //wrap entire thing like we had to nest (line 111) above
@@ -227,6 +199,14 @@ const getAndPrintEmployees = () => {
             console.table('\n\Employees', roles.body);
         }
     }).catch(err => console.log(err));
+}
+
+const responseFeedback = (response, tableName, action) => {
+    if (response.wasSuccessful) {
+        console.log(boldGreenConsoleFont, `${tableName} ${action} successfully.`);
+    } else {
+        console.log(boldRedConsoleFont, `${tableName} failed to be ${action}: ${response.body.sqlMessage}, ${response.body.body}`);
+    }
 }
 
 //run init on startup

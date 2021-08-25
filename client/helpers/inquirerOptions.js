@@ -198,7 +198,19 @@ const updateEmployeeMenuPart4 = [{
 const deleteDepartmentMenu = [{
     type: "input",
     name: "id",
-    message: "Please enter the ID of the department you want to delete:"
+    message: "Please enter the ID of the department you want to delete. Associated foreign keys will become NULL:"
+}];
+
+const deleteRoleMenu = [{
+    type: "input",
+    name: "id",
+    message: "Please enter the ID of the role you want to delete. Associated foreign keys will become NULL:"
+}];
+
+const deleteEmployeeMenu = [{
+    type: "input",
+    name: "id",
+    message: "Please enter the ID of the employee you want to delete. Associated foreign keys will become NULL.:"
 }];
 
 module.exports = {
@@ -222,5 +234,7 @@ module.exports = {
     updateEmployeeMenuPart2,
     updateEmployeeMenuPart3,
     updateEmployeeMenuPart4,
-    deleteDepartmentMenu
+    deleteDepartmentMenu,
+    deleteRoleMenu,
+    deleteEmployeeMenu
 };
