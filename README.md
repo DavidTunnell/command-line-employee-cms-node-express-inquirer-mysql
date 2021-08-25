@@ -1,11 +1,5 @@
 # Command Line Employee Content Management System using Node, Express, Inquirer, Console.Table, MySQL Database
 
-███████ ███    ███ ██████  ██       ██████  ██    ██ ███████ ███████   ██████  ███    ███ ███████
-██      ████  ████ ██   ██ ██      ██    ██  ██  ██  ██      ██        ██      ████  ████ ██
-█████   ██ ████ ██ ██████  ██      ██    ██   ████   █████   █████     ██      ██ ████ ██ ███████
-██      ██  ██  ██ ██      ██      ██    ██    ██    ██      ██        ██      ██  ██  ██      ██
-███████ ██      ██ ██      ███████  ██████     ██    ███████ ███████   ██████  ██      ██ ███████
-
 A content management system for an employees database schema. 
 
 This application is really two applications (client and server) with full CRUD capability for each of the tables of the associated database. There is a [node.js](https://nodejs.org/en/) and [express.js](https://expressjs.com/) server located in the `./server/` folder which connects to a [mySQL](https://www.mysql.com/) database using [MySQL2](https://www.npmjs.com/package/mysql2). Located in `./server/db` are the schema and seed data files needed to create the database for the node server to interact with. The node server uses modular routing where when `./server.js/` is started it runs `./server/routes/index.js` which in turn allows `./server/routes/department.js`, `./server/routes/role.js` and `./routes/server/employee.js` files to run and control their respective requests. These files all rely on `./server/helper/dbConnection.js` to connect and interact with the mySQL database. Each API route has CRUD functionality for the associated table. The connection information can also be updated here. The project also has [nodemon](https://www.npmjs.com/package/nodemon) available for debugging on the server project. Run with `nodemon ./server.js`.
@@ -24,9 +18,7 @@ Next is the client, which also makes calls to the REST API server. It can be run
 
 ## API
 
-As mentioned above the API server is a separate application. This server is available via REST with or without the client. These could be called locally once the server is running on your machine via the install instructions above. 
-
-The code is also deployed/running on [Heroku](https://www.heroku.com/) at the following address. Below are some example commands available. <<<<<<>>>>>>
+As mentioned above the API server is a separate application. This server is available via REST with or without the client. These could be called locally once the server is running on your machine via the install instructions above or to a server. 
 
 Available Calls:
 * POST - http://localhost:3001/api/department/ - create a new department
@@ -89,10 +81,3 @@ Available Calls:
 ### Node Server Running
 
 ![Node Server Running](./assets/node-server.png)
-
-================
-
-//deploy to heroku?
-
-//walkthrough video
-//link to github repo
