@@ -1,5 +1,5 @@
 # Command Line Employee Content Management System using Node, Express, Inquirer, Console.Table, MySQL Database
-
+`
 ███████ ███    ███ ██████  ██       ██████  ██    ██ ███████ ███████
 ██      ████  ████ ██   ██ ██      ██    ██  ██  ██  ██      ██
 █████   ██ ████ ██ ██████  ██      ██    ██   ████   █████   █████
@@ -11,6 +11,7 @@
                     ██      ██ ████ ██ ███████
                     ██      ██  ██  ██      ██
                     ██████  ██      ██ ███████
+`
 
 A content management system for an employees database schema. 
 
@@ -94,7 +95,7 @@ Available Calls:
 
 ### Node Server Running
 
-![Node Server](./assets/node-Server.png)
+![Node Server Running](./assets/node-server.png)
 
 ================
 
