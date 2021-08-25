@@ -26,9 +26,7 @@ Command examples
 ## Screenshots
 
 ================
-//add joins to role and employee table for foreign keys
 //quality comments
 //walkthrough video
 //finish readme
 //link to github repo
-//maybe: Application allows users to view the total utilized budget of a department&mdash;in other words, the combined salaries of all employees in that department (8 points).

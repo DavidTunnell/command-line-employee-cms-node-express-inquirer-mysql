@@ -22,7 +22,14 @@ employeeRouter.post('/', (req, res) => {
 // Read All /api/department/
 employeeRouter.get('/', (req, res) => {
     console.info(`${req.method} request received.`);
-    const sql = 'SELECT * FROM employee;';
+    const sql = `
+    SELECT e.id, e.first_name, e.last_name, e.role_id, r.title, e.manager_id, CONCAT(m.last_name, ', ', m.first_name) AS Manager
+    FROM
+        employee e
+    LEFT OUTER JOIN employee m ON 
+        m.id = e.manager_id
+    LEFT OUTER JOIN role r ON 
+        r.id = e.role_id;`;
     dbConnection.sqlQuery(sql, [], res);
 });
 

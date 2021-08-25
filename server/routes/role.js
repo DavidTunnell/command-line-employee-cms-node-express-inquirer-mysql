@@ -25,7 +25,12 @@ roleRouter.post('/', (req, res) => {
 // Read All /api/department/
 roleRouter.get('/', (req, res) => {
     console.info(`${req.method} request received.`);
-    const sql = 'SELECT * FROM role;';
+    const sql = `
+    SELECT role.id, role.title, role.salary, role.department_id, department.name AS 'department_name'
+        FROM role
+    LEFT OUTER JOIN department ON 
+        role.department_id = department.id
+        ORDER BY role.id;`;
     dbConnection.sqlQuery(sql, [], res);
 });
 
